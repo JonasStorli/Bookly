@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LYl7xKZMeEE=",
+  "dgSpecHash": "bpET4VmmEkk=",
   "success": true,
-  "projectFilePath": "/Users/jonasstorli/BookRating/BookRating.Api/BookRating.Api.csproj",
+  "projectFilePath": "/Users/jonasstorli/Documents/GitHub/Bookly/BookRating.Api/BookRating.Api.csproj",
   "expectedPackageFiles": [
     "/Users/jonasstorli/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/jonasstorli/.nuget/packages/microsoft.bcl.asyncinterfaces/7.0.0/microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

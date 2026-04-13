@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookRating.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41a55c93b623802a11c790e260a49f7deba1057f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2baa33fb536f9ce166e788e0865271f150c8e15")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookRating.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookRating.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

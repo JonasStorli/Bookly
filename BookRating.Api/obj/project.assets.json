@@ -3084,11 +3084,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jonasstorli/BookRating/BookRating.Api/BookRating.Api.csproj",
+      "projectUniqueName": "/Users/jonasstorli/Documents/GitHub/Bookly/BookRating.Api/BookRating.Api.csproj",
       "projectName": "BookRating.Api",
-      "projectPath": "/Users/jonasstorli/BookRating/BookRating.Api/BookRating.Api.csproj",
+      "projectPath": "/Users/jonasstorli/Documents/GitHub/Bookly/BookRating.Api/BookRating.Api.csproj",
       "packagesPath": "/Users/jonasstorli/.nuget/packages/",
-      "outputPath": "/Users/jonasstorli/BookRating/BookRating.Api/obj/",
+      "outputPath": "/Users/jonasstorli/Documents/GitHub/Bookly/BookRating.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/jonasstorli/.nuget/NuGet/NuGet.Config"
