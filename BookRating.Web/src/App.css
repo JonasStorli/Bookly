@@ -83,6 +83,7 @@
   border-radius: var(--radius);
   font-size: 1rem;
   background: var(--surface);
+  color: var(--text);
 }
 .search-form input:focus {
   outline: 2px solid var(--primary);
@@ -149,6 +150,9 @@ button[type="submit"] {
   justify-content: center;
   color: var(--text-muted);
   font-size: 0.8rem;
+}
+.no-cover.loading {
+  animation: pulse 1.5s ease-in-out infinite;
 }
 .no-cover.large {
   height: 300px;
@@ -418,6 +422,14 @@ button[type="submit"] {
     transform: rotate(360deg);
   }
 }
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
 
 /* ── Rated page rows ─────────────────────────────────────── */
 .rated-list {
@@ -636,6 +648,7 @@ button[type="submit"] {
 .profile-row-name {
   font-weight: 500;
   font-size: 0.95rem;
+  color: var(--text);
 }
 .profile-row-actions {
   display: flex;

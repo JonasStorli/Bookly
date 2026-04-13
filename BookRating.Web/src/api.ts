@@ -6,6 +6,27 @@ export function coverUrl(coverId: number, size: "S" | "M" | "L" = "M") {
   return `https://covers.openlibrary.org/b/id/${coverId}-${size}.jpg`;
 }
 
+export async function searchFallbackCover(title: string, authors?: string): Promise<string | null> {
+  try {
+    const query = `${title} ${authors?.split(",")[0] || ""}`.trim();
+    const response = await fetch(
+      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=1&fields=items(volumeInfo(imageLinks))`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      const imageLinks = data.items?.[0]?.volumeInfo?.imageLinks;
+      if (imageLinks?.thumbnail) {
+        // Clean up Google Books URL (remove zoom parameter and make it larger)
+        return imageLinks.thumbnail.replace(/&zoom=\d+/, '&zoom=1');
+      }
+    }
+  } catch (error) {
+    console.log('Fallback cover search failed:', error);
+  }
+  return null;
+}
+
 export function workId(key: string) {
   return key.replace("/works/", "");
 }
