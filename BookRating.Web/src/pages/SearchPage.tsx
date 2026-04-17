@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { searchBooks, fetchTrending, workId } from "../api";
 import type { SearchDoc } from "../types";
 import BookCard from "../components/BookCard";
@@ -127,8 +128,13 @@ export default function SearchPage() {
   };
 
   // ── load search ────────────────────────────────────────────────────────────
-  const loadSearch = async (q: string, nextPage: number, append: boolean) => {
-    if (!q.trim()) return;
+  const loadSearch = async (
+    q: string,
+    nextPage: number,
+    append: boolean,
+    authorKey?: string,
+  ) => {
+    if (!q.trim() && !authorKey?.trim()) return;
     const gen = loadGenRef.current;
     if (isLoadingRef.current && !append) return;
     if (append && isLoadingRef.current) return;
@@ -143,6 +149,7 @@ export default function SearchPage() {
         limitRef.current,
         sortRef.current,
         languagesRef.current,
+        authorKey,
       );
       if (loadGenRef.current !== gen) return; // stale
       setDocs((prev) => (append ? appendDocs(prev, data.docs) : data.docs));
@@ -176,12 +183,17 @@ export default function SearchPage() {
     loadTrending(nextPage, append);
   };
 
-  const startSearch = (q: string, nextPage: number, append: boolean) => {
+  const startSearch = (
+    q: string,
+    nextPage: number,
+    append: boolean,
+    authorKey?: string,
+  ) => {
     if (!append) {
       loadGenRef.current++;
       isLoadingRef.current = false;
     }
-    loadSearch(q, nextPage, append);
+    loadSearch(q, nextPage, append, authorKey);
   };
 
   // ── Initial load ───────────────────────────────────────────────────────────
@@ -190,6 +202,10 @@ export default function SearchPage() {
   }, []); // eslint-disable-line
 
   // ── Re-load when booksPerLoad changes ─────────────────────────────────────
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParam = searchParams.get("q") ?? "";
+  const authorParam = searchParams.get("author") ?? "";
+
   const mountedRef = useRef(false);
   useEffect(() => {
     if (!mountedRef.current) {
@@ -199,9 +215,9 @@ export default function SearchPage() {
     const q = activeGenreQueryRef.current || queryRef.current;
     loadGenRef.current++;
     isLoadingRef.current = false;
-    if (isSearchRef.current) loadSearch(q, 1, false);
+    if (isSearchRef.current) loadSearch(q, 1, false, authorParam);
     else loadTrending(1, false);
-  }, [booksPerLoad]); // eslint-disable-line
+  }, [booksPerLoad, authorParam]); // eslint-disable-line
 
   // ── Re-load when sort or language changes (always, in any mode) ────────────
   const mountedRef2 = useRef(false);
@@ -239,15 +255,36 @@ export default function SearchPage() {
     return () => observerRef.current?.disconnect();
   }, []); // eslint-disable-line — intentionally once, reads refs
 
+  useEffect(() => {
+    const q = searchParam.trim();
+    activeGenreQueryRef.current = "";
+    setActiveGenres([]);
+    setQuery(q);
+
+    if (authorParam.trim()) {
+      setIsSearchMode(true);
+      isSearchRef.current = true;
+      startSearch(q, 1, false, authorParam.trim());
+      return;
+    }
+
+    if (q) {
+      setIsSearchMode(true);
+      isSearchRef.current = true;
+      startSearch(q, 1, false);
+    } else {
+      setIsSearchMode(false);
+      isSearchRef.current = false;
+      startTrending(1, false);
+    }
+  }, [searchParam, authorParam]);
+
   // ── Search submit ──────────────────────────────────────────────────────────
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim()) return;
-    activeGenreQueryRef.current = "";
-    setActiveGenres([]);
-    setIsSearchMode(true);
-    isSearchRef.current = true;
-    startSearch(query, 1, false);
+    const q = query.trim();
+    if (!q) return;
+    setSearchParams({ q });
   };
 
   // ── Genre toggle — plain function, NOT a functional state-updater ──────────
@@ -279,13 +316,13 @@ export default function SearchPage() {
 
   // ── Clear ──────────────────────────────────────────────────────────────────
   const handleClear = () => {
+    setSearchParams({});
     setQuery("");
     setActiveGenres([]);
     activeGenreQueryRef.current = "";
     setIsSearchMode(false);
     isSearchRef.current = false;
     setError("");
-    startTrending(1, false);
   };
 
   // ── Heading ────────────────────────────────────────────────────────────────

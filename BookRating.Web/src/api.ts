@@ -39,14 +39,21 @@ export async function searchBooks(
   limit = 20,
   sort?: string,
   languages: string[] = [],
+  authorKey?: string,
 ): Promise<SearchResult> {
-  // Append language filter: single → language:eng, multiple → (language:eng OR language:nor)
   let effectiveQ = q;
+  if (authorKey?.trim()) {
+    effectiveQ = effectiveQ
+      ? `${effectiveQ} author_key:${authorKey}`
+      : `author_key:${authorKey}`;
+  }
+
+  // Append language filter: single → language:eng, multiple → (language:eng OR language:nor)
   if (languages.length === 1) {
-    effectiveQ = `${q} language:${languages[0]}`;
+    effectiveQ = `${effectiveQ} language:${languages[0]}`;
   } else if (languages.length > 1) {
     const langClause = languages.map((l) => `language:${l}`).join(" OR ");
-    effectiveQ = `${q} (${langClause})`;
+    effectiveQ = `${effectiveQ} (${langClause})`;
   }
 
   let url = `${BASE}/api/openlibrary/search?q=${encodeURIComponent(effectiveQ)}&page=${page}&limit=${limit}`;

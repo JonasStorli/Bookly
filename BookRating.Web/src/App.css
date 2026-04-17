@@ -243,6 +243,49 @@ button[type="submit"] {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
   display: block;
 }
+.detail-stock {
+  margin-top: 1rem;
+  width: 220px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.detail-stock .stock-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.detail-stock .stock-text {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+.detail-stock .shop-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.shop-link {
+  padding: 0.45rem 0.8rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: all 0.15s;
+}
+.shop-link:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
 .detail-info {
   flex: 1;
   min-width: 280px;
